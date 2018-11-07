@@ -5,15 +5,23 @@ import Router from "next/router";
 class IndexPage extends Component {
     state = {};
 
-    static async getInitialProps(context) {
+    /** Here server listen the promise and then render the page ONLY after
+     * promise resolved.
+     */
+    static getInitialProps(context) {
         console.log(context);
-        return {};
+        const promise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve({appName: 'Super App'})
+            }, 1000)
+        })
+        return promise;
     }
 
     render() {
         return (
             <div>
-                <h1>The main page!!!</h1>
+                <h1>The main Page of {this.props.appName}</h1>
                 <p>
                     Go to{" "}
                     <Link href="/auth">
